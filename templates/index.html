@@ -7,7 +7,7 @@
 <body>
     <div class="container">
         <h1>LinkedIn Post Automator</h1>
-        <form action="/cgi-bin/process_form.py" method="post">
+        <form id="postForm">
             <label for="post_topic">Post Topic:</label>
             <input type="text" id="post_topic" name="post_topic" required><br>
 
@@ -27,6 +27,32 @@
 
             <input type="submit" value="Submit">
         </form>
+        
+        <div id="resultContainer"></div>
     </div>
+    <script>
+        // JavaScript code to handle the form submission
+        document.getElementById("postForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            // Create a new FormData object with the form data
+            const formData = new FormData(event.target);
+
+            // Send a POST request to the CGI script (index.py) using fetch
+            fetch("/cgi-bin/index.py", {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Display the result returned by the CGI script in the resultContainer
+                document.getElementById("resultContainer").innerHTML = data;
+            })
+            .catch(error => {
+                // Handle any errors
+                console.error("Error:", error);
+            });
+        });
+    </script>
 </body>
 </html>

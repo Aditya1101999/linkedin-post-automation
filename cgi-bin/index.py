@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 import cgi
 import openai
-import requests
-from PIL import Image, ImageDraw, ImageFont
 import time
+from PIL import Image, ImageDraw, ImageFont
 
 print("Content-type: text/html\n")
 
-openai.api_key = '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'
+openai.api_key = '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'
 
 form = cgi.FieldStorage()
 post_topic = form.getvalue("post_topic")
@@ -16,7 +15,6 @@ num_of_days = form.getvalue("num_of_days")
 num_of_days = int(num_of_days) if num_of_days is not None else 1
 target_audience = form.getvalue("target_audience")
 
-# adjust prompt
 prompt = f"Topic: {post_topic}\nTarget: {target}\nTarget Audience: {target_audience}\nGenerate content for the post:"
 
 def generate_image(post_heading):
@@ -41,21 +39,25 @@ def generate_image(post_heading):
 
     return canvas
 
+
+# Generate the OpenAI response
+response = openai.ChatCompletion.create(  
+    model="gpt-3.5-turbo",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": prompt},
+    ],
+)
+
+# Get the generated content from the response
+generated_content = response['choices'][0]['message']['content']
+
+# Save the generated content to a file
+output_directory = '/Users/adi/Developer/DevProjects/Python/linkedin-postautomater/generated_images'
 for day in range(1, num_of_days + 1):
-    response = openai.ChatCompletion.create(  
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": prompt},
-        ],
-    )
-
-    generated_content = response['choices'][0]['message']['content']
-
     post_heading = generated_content
     image = generate_image(post_heading)
 
-    output_directory = '/Users/adi/Developer/DevProjects/Python/linkedin-postautomater/generated_images'
     image_path = f"{output_directory}/image_day{day}.png"
     image.save(image_path)
 
@@ -67,3 +69,12 @@ for day in range(1, num_of_days + 1):
 
     if day < num_of_days:
         time.sleep(24 * 60 * 60)
+
+# Save the generated content to a file
+output_filename = 'cgi-bin/result.txt'  # Replace with the desired output file path
+with open(output_filename, 'w') as f:
+    f.write(generated_content)
+
+# Now, redirect the user to the result page (result_page.html)
+# Append any relevant query parameters to the URL if needed
+print(f"Location: result_page.html\n")

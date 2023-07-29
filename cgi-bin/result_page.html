@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LinkedIn Post Automator - Result Page</title>
+</head>
+<body>
+    <h1>LinkedIn Post Automator - Result Page</h1>
+    <h2>Generated Content:</h2>
+    <div id="generatedContent"></div>
+
+    <script>
+        // JavaScript code to fetch and display the generated content from the file
+        fetch('/cgi-bin/result.txt')  // Replace with the correct CGI script URL for the result file
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("generatedContent").textContent = data;
+        })
+        .catch(error => {
+            console.error("Error:", error);
+        });
+    </script>
+</body>
+</html>
