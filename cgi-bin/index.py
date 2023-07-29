@@ -9,7 +9,7 @@ import time
 print("Content-type: text/html\n")
 
 # todo(right one) OpenAI API key
-openai.api_key = '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'
+openai.api_key = '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'
 
 form = cgi.FieldStorage()
 post_topic = form.getvalue("post_topic")
