@@ -3,11 +3,12 @@ import cgi
 import openai
 import requests
 from PIL import Image, ImageDraw, ImageFont
+import time
 
 # Set the content type to HTML
 print("Content-type: text/html\n")
 
-# todo(sahi wala :) OpenAI API key
+# todo(right one) OpenAI API key
 openai.api_key = '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'
 
 form = cgi.FieldStorage()
@@ -16,17 +17,8 @@ target = form.getvalue("target")
 num_of_days = form.getvalue("num_of_days")
 target_audience = form.getvalue("target_audience")
 
-# prommpt adjust
-prompt = f"Topic: {post_topic}\nTarget: {target}\nGenerate content for the post:"
-
-
-response = openai.Completion.create(
-    engine="text-davinci-002",  # engine name of key
-    prompt=prompt,
-    max_tokens=600,  # linkedin limit
-)
-
-generated_content = response['choices'][0]['text']
+# adjust prompt
+prompt = f"Topic: {post_topic}\nTarget: {target}\nTarget Audience: {target_audience}\nGenerate content for the post:"
 
 def generate_image(post_heading):
     canvas_width = 800
@@ -46,10 +38,31 @@ def generate_image(post_heading):
 
     return canvas
 
-post_heading = generated_content  
-image = generate_image(post_heading)
-image.save('/path/to/save/image.png')  #update path
+for day in range(1, num_of_days + 1):
+    response = openai.Completion.create(
+        engine="text-davinci-002",
+        prompt=prompt,
+        max_tokens=600,
+    )
 
-print("<h1>LinkedIn Post Automator - Content Generated</h1>")
-print("<p>Generated Content:</p>")
-print("<p>", generated_content, "</p>")
+    generated_content = response['choices'][0]['text']
+
+    # Generate image for the post
+    post_heading = generated_content
+    image = generate_image(post_heading)
+
+    # Save the image with a unique filename for each day
+    output_directory = '/Users/adi/Developer/DevProjects/Python/linkedin-postautomater/generated_images'
+    image_path = f"{output_directory}/image_day{day}.png"
+    image.save(image_path)
+
+    # Display a confirmation message to the user
+    print("<h1>LinkedIn Post Automator - Content Generated</h1>")
+    print("<p>Generated Content for Day:", day, ":</p>")
+    print("<p>", generated_content, "</p>")
+    print("<p>Generated Image for Day:", day, ":</p>")
+    print(f'<img src="{image_path}" alt="Generated Image" width="400">')
+
+    # Introduce a 24-hour gap between posts
+    if day < num_of_days:
+        time.sleep(24 * 60 * 60)  
