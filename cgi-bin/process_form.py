@@ -11,8 +11,6 @@ target = form.getvalue("target")
 num_of_days = form.getvalue("num_of_days")
 target_audience = form.getvalue("target_audience")
 
-# You can process the form data further as per your requirements
-# For now, we'll just print the values for demonstration purposes
 print("<h1>LinkedIn Post Automator - Form Submission</h1>")
 print("<p>Post Topic:", post_topic, "</p>")
 print("<p>Target:", target, "</p>")
