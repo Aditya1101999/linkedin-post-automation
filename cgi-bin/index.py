@@ -9,7 +9,7 @@ import time
 print("Content-type: text/html\n")
 
 # todo(right one) OpenAI API key
-openai.api_key = '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'
+openai.api_key = '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'
 
 form = cgi.FieldStorage()
 post_topic = form.getvalue("post_topic")
@@ -40,7 +40,7 @@ def generate_image(post_heading):
 
 for day in range(1, num_of_days + 1):
     response = openai.Completion.create(
-        engine="text-davinci-002",
+        engine="gpt-3.5-turbo",
         prompt=prompt,
         max_tokens=600,
     )
