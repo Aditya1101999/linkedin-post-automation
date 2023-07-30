@@ -7,7 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 print("Content-type: text/html\n")
 
-#openai api key
+openai.api_key = 'MY_API_KEY'
 
 form = cgi.FieldStorage()
 post_topic = form.getvalue("post_topic")
@@ -21,7 +21,7 @@ imageprompt=f"You are an expert image designer who focuses on to make images for
 
 def generate_image(imageprompt):
     response = openai.Image.create(
-        imagePrompt=imageprompt,
+        prompt=imageprompt,
         n=1,
         size="512x512",
     )
@@ -38,33 +38,33 @@ def generate_image(imageprompt):
 
 def post_to_linkedin(content, image_path):
     access_token = "AQUBG24c4wfGa6E1POfHnKcd4WzwVyiCMYaavcpQGjshUJdGatDZzkTM6XvkFhaIqz7XCaY0z-dZMuzXmmaEOGwoabxuk1olxIZEUXZ1mgBeTlmT7LDiYbw2H5kYzcWC0qn2ylFxlaN2AzxMFUMVF0RwU3Uez8mUG2R4uIsyylYwoDuXK2OpcW42ZPceiDLQYfTrC2S5z29uYeIlmD-Xc3dcHvbGFTo4TkPuPZd1OoocJpgykKxDuDZhJSyHxMhGy5SuHcO1YFPj-rHGaqTSdg4R5adaFxE0vMAvd8HUzdQPdQFHFr6_H0WEG8lEmEyjmhKi301YWUj6hvRVVXCROW5Njb-tjA"
-    profile_id = "testing-sols"  
-    url = f"https://api.linkedin.com/v2/ugcPosts"
+    url = "https://api.linkedin.com/v2/ugcPosts"
     headers = {
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "application/json",
     }
 
     post_data = {
-        "author": f"urn:li:person:{profile_id}",
-        "lifecycleState": "PUBLISHED",
-        "specificContent": {
-            "com.linkedin.ugc.ShareContent": {
-                "shareCommentary": {
-                    "text": content,
-                },
-                "shareMediaCategory": "IMAGE",
-                "media": [
-                    {
-                        "status": "READY",
-                        "description": {"text": content},
-                        "media": image_path,
-                    }
-                ],
-            }
-        },
-        "visibility": {"com.linkedin.ugc.MemberNetworkVisibility": "CONNECTIONS"},
-    }
+    "author": "urn:li:person:Nv7Hoz3QEA",
+    "lifecycleState": "PUBLISHED",
+    "specificContent": {
+        "com.linkedin.ugc.ShareContent": {
+            "shareCommentary": {
+                "text": content 
+            },
+            "shareMediaCategory": "ARTICLE",
+            "media": [
+                {
+                    "status": "READY",
+                    "description": { "text": content }, 
+                    "originalUrl": image_path,
+                    "title": { "text": "LinkedIn Post" }
+                }
+            ]
+        }
+    },
+    "visibility": { "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC" }
+}
 
     try:
         response = requests.post(url, json=post_data, headers=headers)
