@@ -10,9 +10,10 @@ import numpy as np
 
 
 print("Content-type: text/html\n")
-openai.api_key = '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'
-ACCESS_TOKEN = "AQUBG24c4wfGa6E1POfHnKcd4WzwVyiCMYaavcpQGjshUJdGatDZzkTM6XvkFhaIqz7XCaY0z-dZMuzXmmaEOGwoabxuk1olxIZEUXZ1mgBeTlmT7LDiYbw2H5kYzcWC0qn2ylFxlaN2AzxMFUMVF0RwU3Uez8mUG2R4uIsyylYwoDuXK2OpcW42ZPceiDLQYfTrC2S5z29uYeIlmD-Xc3dcHvbGFTo4TkPuPZd1OoocJpgykKxDuDZhJSyHxMhGy5SuHcO1YFPj-rHGaqTSdg4R5adaFxE0vMAvd8HUzdQPdQFHFr6_H0WEG8lEmEyjmhKi301YWUj6hvRVVXCROW5Njb-tjA"
-PERSON_URN = "urn:li:person:Nv7Hoz3QEA"
+openai.api_key='YOUR_OPEN_API_KEY'
+ACCESS_TOKEN = "LINKEDIN_ACCESS_TOKEN"
+PERSON_URN = "urn:li:person:URN"
+
 
 
 
@@ -23,7 +24,27 @@ num_of_days = form.getvalue("num_of_days")
 num_of_days = int(num_of_days) if num_of_days is not None else 1
 target_audience = form.getvalue("target_audience")
 
-prompt = f"You are an expert technical content writer who focuses on LinkedIn Post. Each post must be under 600 characters. Write about: Topic: {post_topic}\nTarget: {target}\nTarget Audience: {target_audience}\nGenerate content for the post:"
+# Retrieval Step
+def retrieve_information(post_topic):
+    search_query = f"{post_topic}"
+    retrieval_prompt = f"Search for relevant information about {search_query}."
+
+    try:
+        retrieval_response = openai.Completion.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are an expert at retrieving relevant information."},
+                {"role": "user", "content": retrieval_prompt},
+            ],
+        )
+        retrieved_content = retrieval_response.choices[0].message
+        return retrieved_content
+    except Exception as e:
+        print("Error during retrieval:", e)
+        return None
+
+retrieved_content = retrieve_information(post_topic)
+prompt = f"You are an expert technical content writer who focuses on LinkedIn Post. Each post must be under 600 characters. Write about: Topic: {post_topic}\nTarget: {target}\nTarget Audience: {target_audience}\nUse the following information: {retrieved_content}\nGenerate content for the post:"
 imageprompt=f"We are a comapny of {post_topic}\nGenerate image for the post:"
 
 
