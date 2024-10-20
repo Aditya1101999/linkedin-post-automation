@@ -11,9 +11,8 @@ import numpy as np
 
 print("Content-type: text/html\n")
 openai.api_key='YOUR_OPEN_API_KEY'
-ACCESS_TOKEN = "LINKEDIN_ACCESS_TOKEN"
-PERSON_URN = "urn:li:person:URN"
-
+ACCESS_TOKEN = "AQUBG24c4wfGa6E1POfHnKcd4WzwVyiCMYaavcpQGjshUJdGatDZzkTM6XvkFhaIqz7XCaY0z-dZMuzXmmaEOGwoabxuk1olxIZEUXZ1mgBeTlmT7LDiYbw2H5kYzcWC0qn2ylFxlaN2AzxMFUMVF0RwU3Uez8mUG2R4uIsyylYwoDuXK2OpcW42ZPceiDLQYfTrC2S5z29uYeIlmD-Xc3dcHvbGFTo4TkPuPZd1OoocJpgykKxDuDZhJSyHxMhGy5SuHcO1YFPj-rHGaqTSdg4R5adaFxE0vMAvd8HUzdQPdQFHFr6_H0WEG8lEmEyjmhKi301YWUj6hvRVVXCROW5Njb-tjA"
+PERSON_URN = "urn:li:person:Nv7Hoz3QEA"
 
 
 
