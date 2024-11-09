@@ -1,5 +1,0 @@
-requests
-openai
-Pillow
-opencv-python
-numpy
