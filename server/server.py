@@ -1,10 +1,9 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
+from services.feedback import post_summary
 from services.generate_content import generate_content
 from services.generate_image import generate_image
 from services.post_linkedin import post_to_linkedin
-from server.services.feedback import post_summary
-
 
 app = Flask(__name__)
 
