@@ -19,7 +19,7 @@ function App() {
   const handleGenerateContent = async () => {
     try {
       const contentResponse = await axios.post(
-        'http://localhost:5000/api/v1/generate-content',
+        'https://linkedin-post-automation.onrender.com/api/v1/generate-content',
         {
           query: contentQuery,
         }
@@ -34,7 +34,7 @@ function App() {
   const handleGenerateImage = async () => {
     try {
       const imageResponse = await axios.post(
-        'http://localhost:5000/api/v1/generate-image',
+        'https://linkedin-post-automation.onrender.com/api/v1/generate-image',
         {
           query: imageQuery,
         },
@@ -51,7 +51,7 @@ function App() {
   const handlePostToLinkedIn = async () => {
     try {
       const postResponse = await axios.post(
-        'http://localhost:5000/api/v1/post-linkedin',
+        'https://linkedin-post-automation.onrender.com/api/v1/post-linkedin',
         {
           generated_content: content,
           image_path: 'generated_image.png',
