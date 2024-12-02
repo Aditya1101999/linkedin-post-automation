@@ -1,7 +1,3 @@
-Here's the updated **README** with a detailed project flow and further explanation of the image upload process, integrating it properly with the rest of the document:
-
----
-
 # LinkedIn Post Automation - README
 
 ## Overview
