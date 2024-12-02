@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
-from services.feedback import post_summary
+# from services.feedback import post_summary
 from services.generate_content import generate_content
 from services.generate_image import generate_image
 from services.post_linkedin import post_to_linkedin
@@ -51,20 +51,20 @@ def post_linkedin_route():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/api/v1/post-analysis', methods=['GET'])
-def get_comments_route():
-    try:
-        post_url = request.args.get('post_url')
+# @app.route('/api/v1/post-analysis', methods=['GET'])
+# def get_comments_route():
+#     try:
+#         post_url = request.args.get('post_url')
 
-        analysis = post_summary(str(post_url))
+#         analysis = post_summary(str(post_url))
 
-        return jsonify({
-            "status": "success",
-            "analysis": analysis["content"]
-        }), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+#         return jsonify({
+#             "status": "success",
+#             "analysis": analysis["content"]
+#         }), 200
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0", port=5005)
