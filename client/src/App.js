@@ -3,7 +3,10 @@ import axios from 'axios';
 import Markdown from 'react-markdown';
 import Navbar from './components/Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWandMagicSparkles, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import {
+  faWandMagicSparkles,
+  faPaperPlane,
+} from '@fortawesome/free-solid-svg-icons';
 
 function App() {
   const [contentQuery, setContentQuery] = useState('');
@@ -11,12 +14,16 @@ function App() {
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
   const [status, setStatus] = useState('');
+  const [days, setDays] = useState(1);
 
   const handleGenerateContent = async () => {
     try {
-      const contentResponse = await axios.post('http://localhost:5000/api/v1/generate-content', {
-        query: contentQuery
-      });
+      const contentResponse = await axios.post(
+        'http://localhost:5000/api/v1/generate-content',
+        {
+          query: contentQuery,
+        }
+      );
       const generatedContent = contentResponse.data.content;
       setContent(generatedContent);
     } catch (error) {
@@ -26,9 +33,13 @@ function App() {
 
   const handleGenerateImage = async () => {
     try {
-      const imageResponse = await axios.post('http://localhost:5000/api/v1/generate-image', {
-        query: imageQuery
-      }, { responseType: 'blob' });
+      const imageResponse = await axios.post(
+        'http://localhost:5000/api/v1/generate-image',
+        {
+          query: imageQuery,
+        },
+        { responseType: 'blob' }
+      );
 
       const imageURL = URL.createObjectURL(imageResponse.data);
       setImage(imageURL);
@@ -39,10 +50,13 @@ function App() {
 
   const handlePostToLinkedIn = async () => {
     try {
-      const postResponse = await axios.post('http://localhost:5000/api/v1/post-linkedin', {
-        generated_content: content,
-        image_path: 'generated_image.png'
-      });
+      const postResponse = await axios.post(
+        'http://localhost:5000/api/v1/post-linkedin',
+        {
+          generated_content: content,
+          image_path: 'generated_image.png',
+        }
+      );
 
       setStatus(postResponse.data.status);
     } catch (error) {
@@ -50,37 +64,74 @@ function App() {
     }
   };
 
+  const handleAutomatedPosts = async () => {
+    for (let day = 0; day < days; day++) {
+      setStatus(`Posting for day ${day + 1}`);
+      await handleGenerateContent();
+      await handleGenerateImage();
+      await handlePostToLinkedIn();
+
+      if (day < days - 1) {
+        await new Promise((resolve) => setTimeout(resolve, 86400000));
+      }
+    }
+
+    setStatus('All posts completed');
+  };
+
   return (
     <div>
       <Navbar />
 
       <div className="flex flex-col items-center justify-center max-w-3xl m-auto mt-10 h-96 text-center">
-        <h2 className="px-4 py-2 text-sm bg-white border border-blue-300 rounded-full shadow-md font-ubuntu">Beta version now live</h2>
-        <h2 className="mt-5 text-6xl font-semibold text-slate-800 font-ubuntu">Automate your LinkedIn <span className="text-blue-500">posts</span> in seconds.</h2>
-        <p className="mt-5 text-2xl text-slate-600 font-ubuntu">Improve your post quality by AI-powered content and image generation</p>
+        <h2 className="px-4 py-2 text-sm bg-white border border-blue-300 rounded-full shadow-md font-ubuntu">
+          Beta version now live
+        </h2>
+        <h2 className="mt-5 text-6xl font-semibold text-slate-800 font-ubuntu">
+          Automate your LinkedIn <span className="text-blue-500">posts</span> in
+          seconds.
+        </h2>
+        <p className="mt-5 text-2xl text-slate-600 font-ubuntu">
+          Improve your post quality by AI-powered content and image generation
+        </p>
       </div>
-
-      <div className="relative max-width">
+      <div className="max-width flex items-center justify-between mt-4 space-x-4">
+        <input
+          type="number"
+          value={days}
+          onChange={(e) => setDays(Number(e.target.value))}
+          placeholder="Enter the number of days"
+          className="flex-grow px-4 py-2 bg-gray-100 border border-zinc-400 rounded-md"
+        />
         <button
-          onClick={handlePostToLinkedIn}
-          disabled={!content || !image}
-          className="absolute top-0 right-0 flex items-center justify-center px-4 py-2 text-white bg-slate-700 hover:bg-black rounded-md font-ubuntu"
+          onClick={handleAutomatedPosts}
+          disabled={days < 1}
+          className={`flex items-center justify-center px-4 py-2 text-white rounded-md font-ubuntu ${
+            days < 1
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-slate-700 hover:bg-black'
+          }`}
         >
-          Post to Linkedin <FontAwesomeIcon icon={faPaperPlane} className="ml-2" />
+          Automate for {days} days{' '}
+          <FontAwesomeIcon icon={faPaperPlane} className="ml-2" />
         </button>
       </div>
 
       {status && (
-        <div className='max-width'>
-          {status === 'success'? (
-            <h4 className="text-md w-40 bg-green-200 border border-green-300 px-4 py-2 rounded-md font-ubuntu">Status: {status}</h4>
-          ):(
-            <h4 className="text-md w-40 bg-red-200 border border-red-300 px-4 py-2 rounded-md font-ubuntu">Status: {status}</h4>
+        <div className="max-width">
+          {status === 'success' ? (
+            <h4 className="text-md w-40 bg-green-200 border border-green-300 px-4 py-2 rounded-md font-ubuntu">
+              Status: {status}
+            </h4>
+          ) : (
+            <h4 className="text-md w-40 bg-red-200 border border-red-300 px-4 py-2 rounded-md font-ubuntu">
+              Status: {status}
+            </h4>
           )}
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-4 mt-20 max-width mb-20">
+      <div className="grid grid-cols-2 gap-4 mt-8 max-width mb-8">
         <div className="p-6 bg-white border border-zinc-300 rounded-md shadow-xl">
           <h3 className="text-2xl font-ubuntu">Content Generation</h3>
           <textarea
@@ -93,12 +144,15 @@ function App() {
             onClick={handleGenerateContent}
             className="flex items-center justify-center px-4 py-2 mt-2 text-white bg-slate-700 hover:bg-black rounded-md font-ubuntu"
           >
-            Generate Content <FontAwesomeIcon icon={faWandMagicSparkles} className="ml-2" />
+            Generate Content{' '}
+            <FontAwesomeIcon icon={faWandMagicSparkles} className="ml-2" />
           </button>
           {content && (
             <div>
               <h4 className="mt-4 text-lg font-semibold">Generated Content:</h4>
-              <Markdown className="mt-4 bg-zinc-100 border border-zinc-200 rounded-md p-6">{content}</Markdown>
+              <Markdown className="mt-4 bg-zinc-100 border border-zinc-200 rounded-md p-6">
+                {content}
+              </Markdown>
             </div>
           )}
         </div>
@@ -115,7 +169,8 @@ function App() {
             onClick={handleGenerateImage}
             className="flex items-center justify-center px-4 py-2 mt-2 text-white bg-slate-700 hover:bg-black rounded-md font-ubuntu"
           >
-            Generate Image <FontAwesomeIcon icon={faWandMagicSparkles} className="ml-2" />
+            Generate Image{' '}
+            <FontAwesomeIcon icon={faWandMagicSparkles} className="ml-2" />
           </button>
           {image && (
             <div>
