@@ -65,6 +65,7 @@ function App() {
   };
 
   const handleAutomatedPosts = async () => {
+    const limit=24*60*60;
     for (let day = 0; day < days; day++) {
       setStatus(`Posting for day ${day + 1}`);
       await handleGenerateContent();
@@ -72,7 +73,7 @@ function App() {
       await handlePostToLinkedIn();
 
       if (day < days - 1) {
-        await new Promise((resolve) => setTimeout(resolve, 86400000));
+        await new Promise((resolve) => setTimeout(resolve, limit));
       }
     }
 
