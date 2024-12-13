@@ -1,4 +1,4 @@
-# LinkedIn Post Automation - README
+# LinkedIn Post Automation
 
 ## Overview
 
