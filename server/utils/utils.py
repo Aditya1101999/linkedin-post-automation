@@ -1,4 +1,3 @@
-# utils.py
 def is_termination_message(msg):
     """
     Determines if the given message indicates termination.
