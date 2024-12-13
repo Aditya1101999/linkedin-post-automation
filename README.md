@@ -34,7 +34,7 @@ LinkedIn Post Automation is a comprehensive application designed to automate the
 
 ### **AI Models and Services**
 - **LLM Provider**: GROQ API and Hugging Face API
-- **Models**: Gemma-7B-IT, Black Forest Labs Flux
+- **Models**: Gemma2-9B-IT, Black Forest Labs Flux
 - **Agents**: Autogen agents for text and image generation.
 
 ### **Deployment**
