@@ -1,52 +1,20 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Markdown from 'react-markdown';
 import Navbar from './components/Navbar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faWandMagicSparkles,
   faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons';
+import ContentQuery from './components/ContentQuery';
+import ImageQuery from './components/ImageQuery';
+import Landing from './components/Landing';
 
 function App() {
-  const [contentQuery, setContentQuery] = useState('');
-  const [imageQuery, setImageQuery] = useState('');
+
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
   const [status, setStatus] = useState('');
   const [days, setDays] = useState(1);
-
-  const handleGenerateContent = async () => {
-    try {
-      const contentResponse = await axios.post(
-        'https://linkedin-post-automation.onrender.com/api/v1/generate-content',
-        {
-          query: contentQuery,
-        }
-      );
-      const generatedContent = contentResponse.data.content;
-      setContent(generatedContent);
-    } catch (error) {
-      console.error('Error generating content:', error);
-    }
-  };
-
-  const handleGenerateImage = async () => {
-    try {
-      const imageResponse = await axios.post(
-        'https://linkedin-post-automation.onrender.com/api/v1/generate-image',
-        {
-          query: imageQuery,
-        },
-        { responseType: 'blob' }
-      );
-
-      const imageURL = URL.createObjectURL(imageResponse.data);
-      setImage(imageURL);
-    } catch (error) {
-      console.error('Error generating image:', error);
-    }
-  };
 
   const handlePostToLinkedIn = async () => {
     try {
@@ -68,8 +36,8 @@ function App() {
     const limit=24*60*60;
     for (let day = 0; day < days; day++) {
       setStatus(`Posting for day ${day + 1}`);
-      await handleGenerateContent();
-      await handleGenerateImage();
+      // await handleGenerateContent();
+      // await handleGenerateImage();
       await handlePostToLinkedIn();
 
       if (day < days - 1) {
@@ -84,18 +52,8 @@ function App() {
     <div>
       <Navbar />
 
-      <div className="flex flex-col items-center justify-center max-w-3xl m-auto mt-10 h-96 text-center">
-        <h2 className="px-4 py-2 text-sm bg-white border border-blue-300 rounded-full shadow-md font-ubuntu">
-          Beta version now live
-        </h2>
-        <h2 className="mt-5 text-6xl font-semibold text-slate-800 font-ubuntu">
-          Automate your LinkedIn <span className="text-blue-500">posts</span> in
-          seconds.
-        </h2>
-        <p className="mt-5 text-2xl text-slate-600 font-ubuntu">
-          Improve your post quality by AI-powered content and image generation
-        </p>
-      </div>
+      <Landing/>
+      
       <div className="max-width flex items-center justify-between mt-4 space-x-4">
         <input
           type="number"
@@ -133,53 +91,10 @@ function App() {
       )}
 
       <div className="grid grid-cols-2 gap-4 mt-8 max-width mb-8">
-        <div className="p-6 bg-white border border-zinc-300 rounded-md shadow-xl">
-          <h3 className="text-2xl font-ubuntu">Content Generation</h3>
-          <textarea
-            value={contentQuery}
-            onChange={(e) => setContentQuery(e.target.value)}
-            placeholder="Enter prompt for LinkedIn post content"
-            className="w-full h-32 px-4 py-2 mt-2 bg-gray-100 border border-zinc-400 rounded-md resize-none"
-          />
-          <button
-            onClick={handleGenerateContent}
-            className="flex items-center justify-center px-4 py-2 mt-2 text-white bg-slate-700 hover:bg-black rounded-md font-ubuntu"
-          >
-            Generate Content{' '}
-            <FontAwesomeIcon icon={faWandMagicSparkles} className="ml-2" />
-          </button>
-          {content && (
-            <div>
-              <h4 className="mt-4 text-lg font-semibold">Generated Content:</h4>
-              <Markdown className="mt-4 bg-zinc-100 border border-zinc-200 rounded-md p-6">
-                {content}
-              </Markdown>
-            </div>
-          )}
-        </div>
 
-        <div className="p-6 bg-white border border-zinc-300 rounded-md shadow-xl">
-          <h3 className="text-2xl font-ubuntu">Image Generation</h3>
-          <textarea
-            value={imageQuery}
-            onChange={(e) => setImageQuery(e.target.value)}
-            placeholder="Enter prompt for LinkedIn image"
-            className="w-full h-32 px-4 py-2 mt-2 bg-gray-100 border border-zinc-400 rounded-md resize-none"
-          />
-          <button
-            onClick={handleGenerateImage}
-            className="flex items-center justify-center px-4 py-2 mt-2 text-white bg-slate-700 hover:bg-black rounded-md font-ubuntu"
-          >
-            Generate Image{' '}
-            <FontAwesomeIcon icon={faWandMagicSparkles} className="ml-2" />
-          </button>
-          {image && (
-            <div>
-              <h4 className="mt-4 text-lg font-semibold">Generated Image:</h4>
-              <img src={image} alt="Generated" className="mt-2 rounded-md" />
-            </div>
-          )}
-        </div>
+       <ContentQuery content={content} setContent={setContent}/>
+
+       <ImageQuery image={image} setImage={setImage}/>
       </div>
     </div>
   );
