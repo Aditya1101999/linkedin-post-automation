@@ -1,7 +1,12 @@
+import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faArrowRight,
+} from '@fortawesome/free-solid-svg-icons';
 export default function Landing() {
     return (
         <>
-            <div className="flex flex-col items-center justify-center max-w-3xl m-auto mt-10 h-96 text-center">
+            <div className="flex flex-col items-center justify-center max-w-3xl m-auto h-96 text-center">
                 <h2 className="px-4 py-2 text-xs font-semibold bg-white border border-blue-400 rounded-full shadow-xl font-montserrat">
                     Beta version now live
                 </h2>
@@ -12,6 +17,8 @@ export default function Landing() {
                 <p className="mt-1 text-xl text-slate-600 font-montserrat">
                     Improve your post quality by AI-powered content and image generation
                 </p>
+
+                <NavLink to='/generate' className="w-1/4 mt-5 px-4 py-3 bg-blue-500 hover:bg-blue-700 transition-all text-white font-montserrat rounded-full">Get Started <FontAwesomeIcon icon={faArrowRight} className="ml-2"/></NavLink>
             </div>
         </>
     )
