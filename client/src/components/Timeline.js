@@ -21,12 +21,12 @@ export default function Timeline() {
             <div className="max-w-3xl mx-auto mt-10 flex justify-between mb-10">
                 {steps.map((step) => (
                     <div key={step.id} className="flex flex-col items-center w-1/4">
-                        <div
-                            className={`flex items-center justify-center w-10 h-10 rounded-full border-4 transition-all duration-300 ${
+                            <div
+                            className={`flex items-center justify-center w-8 h-8 rounded-full border-2 transition-all duration-300 ${
                                 active >= step.id ? "border-blue-600 bg-blue-100" : "border-gray-300 bg-white"
                             }`}
                         >
-                            {active > step.id ? <CheckCircle className="text-blue-600 w-6 h-6" /> : <Circle className="text-gray-400 w-6 h-6" />}
+                            {active > step.id ? <CheckCircle className="text-blue-600 w-3 h-3" /> : <Circle className="text-gray-400 w-3 h-3" />}
                         </div>
                         <button
                             onClick={() => setActive(step.id)}
