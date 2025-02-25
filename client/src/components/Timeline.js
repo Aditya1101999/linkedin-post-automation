@@ -2,9 +2,12 @@ import { useState } from "react";
 import { CheckCircle, Circle } from "lucide-react";
 import ContentQuery from "./ContentQuery";
 import ImageQuery from "./ImageQuery";
+import Schedule from "./Schedule";
+import Preview from "./Preview";
 
 export default function Timeline() {
     const [active, setActive] = useState(0);
+    const [days, setDays] = useState(1);
     const [content, setContent] = useState('');
     const [image, setImage] = useState(null);
     
@@ -12,8 +15,8 @@ export default function Timeline() {
     const steps = [
         { id: 0, label: "Generate Content" },
         { id: 1, label: "Generate Image" },
-        { id: 2, label: "Enter Schedule" },
-        { id: 3, label: "Preview & Automate" }
+        { id: 2, label: "Schedule Content" },
+        { id: 3, label: "Preview & Send" }
     ];
 
     return (
@@ -30,7 +33,7 @@ export default function Timeline() {
                         </div>
                         <button
                             onClick={() => setActive(step.id)}
-                            className={`mt-3 text-sm font-medium text-montserrat transition-all ${
+                            className={`mt-3 text-sm font-medium font-montserrat transition-all ${
                                 active >= step.id ? "text-blue-600 font-semibold" : "text-gray-500 hover:text-gray-700"
                             }`}
                         >
@@ -45,9 +48,9 @@ export default function Timeline() {
                 ) : active === 1 ? (
                     <ImageQuery image={image} setImage={setImage} />
                 ) : active === 2 ? (
-                    <h1 className="text-lg font-semibold text-gray-700">Enter your Schedule</h1>
+                    <Schedule days={days} setDays={setDays}/>
                 ) : (
-                    <h1 className="text-lg font-semibold text-gray-700">Preview and Automate Page</h1>
+                    <Preview content={content} image={image} days={days}/>
                 )}
                 </div>
         </>

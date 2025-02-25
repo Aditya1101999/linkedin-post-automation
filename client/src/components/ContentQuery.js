@@ -38,7 +38,7 @@ import {
                 />
                 <button
                     onClick={handleGenerateContent}
-                    className={`flex items-center justify-center px-4 py-2 mt-2 text-white rounded-full font-montserrat text-md ${loading ? 'bg-gray-400 cursor-not-allowed hover:bg-red-500' :' bg-blue-600 hover:bg-blue-700'}`}
+                    className={`flex items-center justify-center px-4 py-2 mt-2 text-white rounded-full font-montserrat text-md ${loading ? 'bg-gray-400 cursor-not-allowed hover:bg-red-600' :' bg-blue-600 hover:bg-blue-700'}`}
                 >
                     {loading ? 'Generating Content' : 'Generate Content'}
                     <FontAwesomeIcon icon={faWandMagicSparkles} className="ml-2" />
