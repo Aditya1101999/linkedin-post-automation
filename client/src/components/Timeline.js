@@ -34,7 +34,7 @@ export default function Timeline() {
                                 active >= step.id ? "text-blue-600 font-semibold" : "text-gray-500 hover:text-gray-700"
                             }`}
                         >
-                            {step.label}
+                            {step.id + 1}. {step.label}
                         </button>
                     </div>
                 ))}
