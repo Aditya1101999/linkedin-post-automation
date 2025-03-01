@@ -1,15 +1,10 @@
-from autogen import AssistantAgent
-from config.development import LLM_CONFIG
+from autogen_agentchat.agents import AssistantAgent
+from config.development import model_client
 
 content_generation_agent = AssistantAgent(
-    name="LinkedIn Content Agent",
-    system_message='''
-    You are a professional assistant specialized in writing LinkedIn posts, NOT giving suggestions.
-    Your task is to directly generate the LinkedIn post content based on the user's input.
-    Ensure the posts are well-written, concise, engaging, and tailored to a professional audience.
-    Avoid offering advice or suggestions. Just provide the actual post content ready for the user to publish.
-    ''',
-    llm_config=LLM_CONFIG,
-    max_consecutive_auto_reply=2,
-    human_input_mode="NEVER"
+    name="LinkedInContentAgent",
+    system_message="""You are linkedin post generator, which crafts posts for the user based on the content. You do not give suggestions, you just generate posts which can be directly copied and posted to LinkedIn. 
+    Give around 50 words of content only.
+    """,
+    model_client=model_client,
 )

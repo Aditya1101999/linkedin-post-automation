@@ -1,5 +1,8 @@
+import asyncio
+
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
+
 # from services.feedback import post_summary
 from services.generate_content import generate_content
 from services.generate_image import generate_image
@@ -12,16 +15,17 @@ CORS(app)
 
 @app.route('/api/v1/generate-content', methods=['POST'])
 def generate_content_route():
-    content = None
-
     request_data = request.get_json()
     user_input = request_data.get('query')
 
-    response = generate_content(user_input)
-
-    if response:
-        content = response[0].chat_history[2]['content']
-        return jsonify({"content": content})
+    response = asyncio.run(generate_content(user_input))
+    messages = response.messages
+    response = messages[len(messages) - 1].content
+    return jsonify(
+        {
+            "content": response,
+        }
+    )
 
 
 @app.route('/api/v1/generate-image', methods=['POST'])

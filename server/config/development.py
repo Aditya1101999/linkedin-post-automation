@@ -1,5 +1,8 @@
 import os
+
 import dotenv
+from autogen_core.models import ModelFamily
+from autogen_ext.models.openai import OpenAIChatCompletionClient
 
 # Load environment variables from .env
 dotenv.load_dotenv('./.env')
@@ -27,9 +30,18 @@ def get_headers(content_type=None):
         headers["Content-Type"] = content_type
     return headers
 
-# LLM Configuration 
-LLM_CONFIG = {
-    "model": "gemma2-9b-it", 
-    "api_key": GROQ_API_KEY,
-    "api_type": "groq"
-}
+# LLM Configuration
+model_client = OpenAIChatCompletionClient(
+    model="qwen-2.5-32b",
+    base_url="https://api.groq.com/openai/v1",
+    api_key="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",
+    model_info={
+        "vision": False,
+        "function_calling": False,
+        "json_output": False,
+        "family": ModelFamily.is_gemini,
+    },
+)
+
+
+LLM_CONFIG = {"model": "gemma2-9b-it", "api_key": GROQ_API_KEY, "api_type": "groq"}
