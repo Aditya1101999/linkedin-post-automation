@@ -31,8 +31,10 @@ export default function ContentQuery({ content, setContent }) {
 
     return (
         <>
-            <div className="p-6 bg-white border border-zinc-300 rounded-xl shadow-md">
-                <h3 className="text-md font-montserrat font-semibold">Content Generation</h3>
+            <h3 className="max-width text-2xl font-bebas">Content Generation</h3>
+            <p className="max-width text-md font-montserrat mt-3 text-gray-500">Generate post content for LinkedIn.</p>
+            <div className="max-width p-6 bg-white border border-zinc-300 rounded-xl shadow-md mt-3">
+
                 <textarea
                     value={contentQuery}
                     onChange={(e) => setContentQuery(e.target.value)}

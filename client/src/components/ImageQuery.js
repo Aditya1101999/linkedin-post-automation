@@ -31,9 +31,10 @@ export default function ImageQuery({image, setImage}){
       };
     return(
         <>
-        
-        <div className="p-6 bg-white border border-zinc-300 rounded-xl shadow-md">
-          <h3 className="text-md font-montserrat font-semibold">Image Generation</h3>
+         <h3 className="max-width text-2xl font-bebas">Image Generation</h3>
+         <p className="max-width text-md font-montserrat mt-3 text-gray-500">Generate post image for LinkedIn.</p>
+        <div className="max-width p-6 mt-3 bg-white border border-zinc-300 rounded-xl shadow-md">
+          
           <textarea
             value={imageQuery}
             onChange={(e) => setImageQuery(e.target.value)}
