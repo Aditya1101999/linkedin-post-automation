@@ -3,16 +3,18 @@ export default function Schedule({ days, setDays }) {
 
   const [status, setStatus] = useState('');
 
-  const daysList = [
-    {"id":0,"label":"Mon"},
-    {"id":1,"label":"Tue"},
-    {"id":2,"label":"Wed"},
+  const [selectedDays, setSelectedDays] = useState([]);
 
-    {"id":3,"label":"Thu"},
-    {"id":4,"label":"Fri"},
-    {"id":5,"label":"Sat"},
-  
-    {"id":6,"label":"Sun"},
+  const daysList = [
+    { "id": 0, "label": "Mon" },
+    { "id": 1, "label": "Tue" },
+    { "id": 2, "label": "Wed" },
+
+    { "id": 3, "label": "Thu" },
+    { "id": 4, "label": "Fri" },
+    { "id": 5, "label": "Sat" },
+
+    { "id": 6, "label": "Sun" },
   ]
 
   const handleAutomatedPosts = async () => {
@@ -34,11 +36,11 @@ export default function Schedule({ days, setDays }) {
       <h1 className="text-2xl font-bebas">Choose your Schedule Strategy</h1>
       <p className="text-md font-montserrat mt-3 text-gray-500">Choose the hours and days you want to post to LinkedIn automatically. You can choose a default one or can customise one.</p>
       <div className="flex flex-row mt-3 gap-5">
-        <div className="w-full p-6 border-2 border-blue-500 rounded-xl bg-white">
+        <div className="w-full p-6 border-2 shadow-sm border-blue-500 rounded-xl bg-white">
           <h1 className="font-montserrat text-md font-semibold text-slate-900">Default</h1>
           <p className="font-montserrat text-md text-gray-500 mt-3">Suited best for posting the content for one day at a designated time.</p>
         </div>
-        <div className="w-full p-6 border-2 border-gray-300 rounded-xl bg-white">
+        <div className="w-full p-6 border-2 shadow-sm border-gray-300 rounded-xl bg-white">
           <h1 className="font-montserrat text-md font-semibold text-slate-900">Custom</h1>
           <p className="font-montserrat text-md text-gray-500 mt-3">Choose your days for the content to be posted on LinkedIn.</p>
         </div>
@@ -50,9 +52,9 @@ export default function Schedule({ days, setDays }) {
         <p className="text-md font-montserrat mt-3 text-gray-500">Select the days of the week to be active.</p>
 
         <div className="flex flex-row items-center mt-3 gap-3">
-          {daysList.map((step)=>(
-              <div className="bg-white p-3 rounded-xl w-full border border-gray-500 font-montserrat text-center" key={step.id}>{step.label}</div>
-        ))}
+          {daysList.map((step) => (
+            <div className={`cursor-pointer p-3 shadow-sm bg-white rounded-xl w-full border-2  font-montserrat text-center ${selectedDays.includes(step.id) ? "border-blue-500" : "border-gray-300"}`} key={step.id} onClick={() => setSelectedDays(prev => prev.includes(step.id) ? prev.filter(id => id !== step.id) : [...prev, step.id])}>{step.label}</div>
+          ))}
         </div>
 
       </div>
