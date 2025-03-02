@@ -14,7 +14,7 @@ export default function ImageQuery({image, setImage}){
         setLoading(true);
         try {
           const imageResponse = await axios.post(
-            'https://linkedin-post-automation.onrender.com/api/v1/generate-image',
+            'http://localhost:5000/api/v1/generate-image',
             {
               query: imageQuery,
             },
@@ -44,7 +44,7 @@ export default function ImageQuery({image, setImage}){
             onClick={handleGenerateImage}
             className={`flex items-center justify-center px-4 py-2 mt-2 text-white rounded-full font-montserrat text-md ${loading ? 'bg-gray-400 cursor-not-allowed' :' bg-blue-600 hover:bg-blue-700'}`}
           >
-           {loading ? (<> Generating Image <SyncLoader className='ml-2' size={8} color='#ffffff' /></>): (<>Generate Image <FontAwesomeIcon icon={faWandMagicSparkles} className="ml-2" />'</>)}
+           {loading ? (<> Generating Image <SyncLoader className='ml-2' size={5} color='#ffffff' /></>): (<>Generate Image <FontAwesomeIcon icon={faWandMagicSparkles} className="ml-2" />'</>)}
           </button>
           {image && (
             <div>

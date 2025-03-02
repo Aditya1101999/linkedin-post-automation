@@ -1,4 +1,5 @@
 import asyncio
+import logging
 
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
@@ -35,9 +36,10 @@ def generate_image_route():
     user_image = request_data.get('query')
 
     try:
-        generate_image(user_image)
+        asyncio.run(generate_image(user_image))
         return send_file('generated_image.png', mimetype='image/png')
     except Exception as e:
+        logging.warning(f"Error occurred due to {e}", exc_info=True)
         return jsonify({"error": str(e)}), 500
 
 

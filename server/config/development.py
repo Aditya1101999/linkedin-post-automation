@@ -21,8 +21,7 @@ LINKEDIN_API_URL = "https://api.linkedin.com/v2"
 
 # Headers for API requests
 headers = {
-    "Authorization": f"Bearer {ACCESS_TOKEN}",
-    "Content-Type": "application/json"
+    "Authorization": f"Bearer {HUGGINGFACE_API_KEY}",
 }
 def get_headers(content_type=None):
     headers = headers.copy()
@@ -34,7 +33,7 @@ def get_headers(content_type=None):
 model_client = OpenAIChatCompletionClient(
     model="qwen-2.5-32b",
     base_url="https://api.groq.com/openai/v1",
-    api_key="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",
+    api_key=GROQ_API_KEY,
     model_info={
         "vision": False,
         "function_calling": False,

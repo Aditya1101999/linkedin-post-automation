@@ -2,9 +2,7 @@ import Markdown from "react-markdown"
 export default function Preview({ content, image, days }) {
     return (
         <>
-            {/* <img>{image}</img>
-        <h3>{days}</h3>
-         */}
+        
             <h1 className="max-width text-md font-montserrat font-semibold">Preview And Automate</h1>
             <div className="max-width m-auto bg-gray-100 mt-5 flex items-center justify-center">
                 <div className="bg-white border shadow-sm px-4 py-3 rounded-lg w-full">
@@ -21,10 +19,14 @@ export default function Preview({ content, image, days }) {
                             </div>
                         </div>
                     </div>
+
                     <Markdown className="mt-4 p-2 font-montserrat">
                         {content ? content : ("Your Generated Content goes here")}
                     </Markdown>
+                    <img src={image} className="rounded-xl"></img>
+
                 </div>
+
             </div>
         </>
     )
