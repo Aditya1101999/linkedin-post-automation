@@ -1,10 +1,66 @@
 import Markdown from "react-markdown"
-export default function Preview({ content, image, days }) {
+import { useState } from "react";
+import axios from 'axios';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPaperPlane,
+} from '@fortawesome/free-solid-svg-icons';
+
+export default function Preview({ content, image, selectedDays, selectedDayNames }) {
+    
+    const [status, setStatus] = useState('');
+   
+    const handlePostToLinkedIn = async () => {
+        try {
+          const postResponse = await axios.post(
+            'http://localhost:5000/api/v1/post-linkedin',
+            {
+              generated_content: content,
+              image_path: 'generated_image.png',
+            }
+          );
+    
+          setStatus(postResponse.data.status);
+        } catch (error) {
+          console.error('Error posting to LinkedIn:', error);
+        }
+      };
+
+    const handleAutomatedPosts = async () => {
+      
+      const today = new Date().getDay()
+      if(selectedDays.includes(today)){
+        setStatus(`Posting today for day ${selectedDayNames[selectedDays.indexOf(today)]}`)
+        await handlePostToLinkedIn()
+        setStatus("Posting completed for the current day.")
+      }
+      else{
+        setStatus("No Posts to be scheduled for today.")
+      }
+      
+    }
+    
     return (
         <>
-        
-            <h1 className="max-width text-md font-montserrat font-semibold">Preview And Automate</h1>
+            <div className="max-width">
+                <h1 className=" text-2xl font-bebas">Preview And Automate</h1>
+                <div className="flex justify-between">
+                  <h2 className="font-montserrat text-md mt-5">Selected days for automation: {selectedDayNames.join(", ") || "No days selected"}</h2>
+                  <button
+                    onClick={handleAutomatedPosts}
+                    className={`flex items-center justify-center px-4 py-2 text-white rounded-md font-montserrat ${selectedDays < 1
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-blue-500 hover:bg-blue-700'
+                      }`}
+                  >
+                    Automate 
+                    <FontAwesomeIcon icon={faPaperPlane} className="ml-2" />
+                  </button>
+                </div>
+            </div>
             <div className="max-width m-auto bg-gray-100 mt-5 flex items-center justify-center">
+
                 <div className="bg-white border shadow-sm px-4 py-3 rounded-lg w-full">
                     <div className="flex items-center">
                         <div className="h-12 w-12 rounded-full bg-gray-200" />
@@ -19,14 +75,12 @@ export default function Preview({ content, image, days }) {
                             </div>
                         </div>
                     </div>
-
                     <Markdown className="mt-4 p-2 font-montserrat">
                         {content ? content : ("Your Generated Content goes here")}
                     </Markdown>
                     <img src={image} className="rounded-xl"></img>
 
                 </div>
-
             </div>
         </>
     )

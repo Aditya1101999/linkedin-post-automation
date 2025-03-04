@@ -1,5 +1,5 @@
 import requests
-from config.development import get_headers, LINKEDIN_API_URL, PERSON_URN_KEY
+from config.development import LINKEDIN_API_URL, PERSON_URN_KEY, get_headers
 
 ASSETS_REGISTER_UPLOAD_URL = f"{LINKEDIN_API_URL}/assets?action=registerUpload" 
 POST_URL = f"{LINKEDIN_API_URL}/ugcPosts" 
@@ -14,6 +14,7 @@ def upload_image(image_path):
         }
     }
     res_data = requests.post(ASSETS_REGISTER_UPLOAD_URL, json=data, headers=HEADERS).json()
+    print("RES...............", res_data)
     upload_url = res_data["value"]["uploadMechanism"]["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"]["uploadUrl"]
     image_asset = res_data["value"]["asset"]
 
@@ -39,4 +40,3 @@ def post_to_linkedin(content, image_path):
     }
     response = requests.post(POST_URL, json=post_data, headers=HEADERS)
     response.raise_for_status()
-

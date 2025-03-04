@@ -23,11 +23,16 @@ LINKEDIN_API_URL = "https://api.linkedin.com/v2"
 headers = {
     "Authorization": f"Bearer {HUGGINGFACE_API_KEY}",
 }
+
+headers2 = {
+    "Authorization": f"Bearer {ACCESS_TOKEN}",
+}
 def get_headers(content_type=None):
-    headers = headers.copy()
+    global headers2
+    updated_headers = headers2.copy()
     if content_type:
-        headers["Content-Type"] = content_type
-    return headers
+        headers2["Content-Type"] = content_type
+    return updated_headers
 
 # LLM Configuration
 model_client = OpenAIChatCompletionClient(

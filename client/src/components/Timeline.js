@@ -7,11 +7,27 @@ import Preview from "./Preview";
 
 export default function Timeline() {
     const [active, setActive] = useState(0);
-    const [days, setDays] = useState(1);
+    const [days, setDays] = useState([]);
     const [content, setContent] = useState('');
     const [image, setImage] = useState(null);
     
-    
+
+    const daysList = [
+        { id: 0, label: "Sun" },
+        { id: 1, label: "Mon" },
+        { id: 2, label: "Tue" },
+        { id: 3, label: "Wed" },
+        { id: 4, label: "Thu" },
+        { id: 5, label: "Fri" },
+        { id: 6, label: "Sat" },
+      ];
+      
+      // Convert selected day IDs to names
+    const selectedDayNames = days.map(dayId => {
+        const dayObj = daysList.find(day => day.id === dayId);
+        return dayObj ? dayObj.label : "";
+      });
+
     const steps = [
         { id: 0, label: "Generate Content" },
         { id: 1, label: "Generate Image" },
@@ -48,9 +64,9 @@ export default function Timeline() {
                 ) : active === 1 ? (
                     <ImageQuery image={image} setImage={setImage} />
                 ) : active === 2 ? (
-                    <Schedule days={days} setDays={setDays}/>
+                    <Schedule selectedDays={days} setSelectedDays={setDays}/>
                 ) : (
-                    <Preview content={content} image={image} days={days}/>
+                    <Preview content={content} image={image} selectedDays={days} selectedDayNames={selectedDayNames}/>
                 )}
                 </div>
         </>
