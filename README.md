@@ -1,10 +1,16 @@
 # LinkedIn Post Automation
 
+> [!IMPORTANT]  
+> Use with caution, LinkedIn account linked with the application.
+
 ## Overview
 
 LinkedIn Post Automation is a comprehensive application designed to automate the process of creating, enhancing, and posting content on LinkedIn. Leveraging AI-powered tools for content generation, image creation, and sentiment analysis, this project enables users to optimize their LinkedIn posts for maximum engagement and professionalism.
 
 ---
+
+
+
 
 ## Features
 
