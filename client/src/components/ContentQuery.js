@@ -16,7 +16,7 @@ export default function ContentQuery({ content, setContent }) {
         setLoading(true);
         try {
           const contentResponse = await axios.post(
-            'http://localhost:5000/api/v1/generate-content',
+            'https://linkedin-post-automation.onrender.com/api/v1/generate-content',
             {
               query: contentQuery,
             }

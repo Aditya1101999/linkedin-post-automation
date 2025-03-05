@@ -14,7 +14,7 @@ export default function ImageQuery({image, setImage}){
         setLoading(true);
         try {
           const imageResponse = await axios.post(
-            'http://localhost:5000/api/v1/generate-image',
+            'https://linkedin-post-automation.onrender.com/api/v1/generate-image',
             {
               query: imageQuery,
             },
