@@ -16,7 +16,7 @@ export default function Preview({ content, image, selectedDays, selectedDayNames
     const handlePostToLinkedIn = async () => {
         try {
           const postResponse = await axios.post(
-            'http://localhost:5000/api/v1/post-linkedin',
+            'https://linkedin-post-automation.onrender.com/api/v1/post-linkedin',
             {
               generated_content: content,
               image_path: 'generated_image.png',
