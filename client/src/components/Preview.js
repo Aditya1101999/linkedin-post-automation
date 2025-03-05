@@ -7,6 +7,8 @@ import {
   faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons';
 
+import toast, {Toaster} from 'react-hot-toast'
+
 export default function Preview({ content, image, selectedDays, selectedDayNames }) {
     
     const [status, setStatus] = useState('');
@@ -22,8 +24,10 @@ export default function Preview({ content, image, selectedDays, selectedDayNames
           );
     
           setStatus(postResponse.data.status);
+          toast.success("Content successfully uploaded to LinkedIn.", {duration:5000})
         } catch (error) {
           console.error('Error posting to LinkedIn:', error);
+          toast.error(`Error posting to LinkedIn due to ${error}`, {duration:5000})
         }
       };
 
@@ -44,6 +48,7 @@ export default function Preview({ content, image, selectedDays, selectedDayNames
     return (
         <>
             <div className="max-width">
+            <Toaster position="top-center"/>
                 <h1 className=" text-2xl font-bebas">Preview And Automate</h1>
                 <div className="flex justify-between">
                   <h2 className="font-montserrat text-md mt-5">Selected days for automation: {selectedDayNames.join(", ") || "No days selected"}</h2>

@@ -13,8 +13,9 @@ def upload_image(image_path):
             "serviceRelationships": [{"relationshipType": "OWNER", "identifier": "urn:li:userGeneratedContent"}],
         }
     }
-    res_data = requests.post(ASSETS_REGISTER_UPLOAD_URL, json=data, headers=HEADERS).json()
-    print("RES...............", res_data)
+    res_data = requests.post(
+        ASSETS_REGISTER_UPLOAD_URL, json=data, headers=HEADERS
+    ).json()
     upload_url = res_data["value"]["uploadMechanism"]["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"]["uploadUrl"]
     image_asset = res_data["value"]["asset"]
 

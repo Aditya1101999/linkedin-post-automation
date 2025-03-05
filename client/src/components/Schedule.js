@@ -1,9 +1,4 @@
-import { useState } from "react";
 export default function Schedule({ selectedDays, setSelectedDays }) {
-
-
-
-  // const [selectedDays, setSelectedDays] = useState([]);
 
   const daysList = [
     { "id": 0, "label": "Sun" },
@@ -14,20 +9,6 @@ export default function Schedule({ selectedDays, setSelectedDays }) {
     { "id": 5, "label": "Fri" },
     { "id": 6, "label": "Sat" },
   ]
-
-  // const handleAutomatedPosts = async () => {
-  //   const limit = 24 * 60 * 60;
-  //   for (let day = 0; day < days; day++) {
-  //     setStatus(`Posting for day ${day + 1}`);
-  //     //   await handlePostToLinkedIn();
-
-  //     if (day < days - 1) {
-  //       await new Promise((resolve) => setTimeout(resolve, limit));
-  //     }
-  //   }
-
-  //   setStatus('All posts completed');
-  // };
 
   return (
     <div className="max-width mt-3">
@@ -56,9 +37,6 @@ export default function Schedule({ selectedDays, setSelectedDays }) {
         </div>
 
       </div>
-
-
-
     </div>
   )
 }
