@@ -1,22 +1,21 @@
-from autogen import ConversableAgent
-from config.development import LLM_CONFIG
-from utils.utils import is_termination_message
+from autogen_agentchat.agents import AssistantAgent
+from config.development import model_client
 
+critic_agent = AssistantAgent(
+    name="critic",
+    system_message="""
+    You are a content improvement agent specializing in LinkedIn posts. Your task is to enhance the post content you see by making it more engaging, reader-friendly, and impactful. 
 
-critic_agent = ConversableAgent(
-    name="Critic Agent",
-    llm_config=LLM_CONFIG,
-    system_message='''
-    You need to improve the post content you saw.
-    How to create content that is better in terms of clarity, engagement, and professionalism.
-    Reply with the following format:
+    Here is how you improve the post:
+    - Add a compelling **hook** in the first few lines to grab attention.
+    - Ensure the message is **clear, concise, and professional**.
+    - Use **storytelling, analogies, or relatable examples** when applicable.
+    - Maintain a **conversational yet professional tone** suitable for LinkedIn.
+    - Improve readability by structuring with **short paragraphs, whitespace, and bullet points** if needed.
+    - Include a **call-to-action (CTA)** encouraging engagement (e.g., questions, polls, comments).
+    - Ensure correct **grammar, spelling, and formatting**.
 
-   CRITICS: the content needs to improve...
-   PROMPT: here is the updated content!
-
-   If you have no critique or a prompt, just say TERMINATE
-   ''',
-    max_consecutive_auto_reply=2,
-    human_input_mode="NEVER",
-    is_termination_msg=is_termination_message,
+    **Output Only the Improved Post:** Do not provide explanations or additional comments—only return the revised post.
+    """,
+    model_client=model_client,
 )

@@ -1,21 +1,15 @@
 from agents.content_generation_agent import content_generation_agent
 from agents.critic_agent import critic_agent
-from autogen import initiate_chats
+from autogen_agentchat.conditions import MaxMessageTermination
+from autogen_agentchat.teams import RoundRobinGroupChat
 
+max_msg_termination = MaxMessageTermination(max_messages=3)
 
-def generate_content(user_input):
-    support_request = {
-        "content": user_input,
-        "role": "user",
-    }
-    chats = [
-        {
-            "sender": content_generation_agent,
-            "recipient": critic_agent,
-            "message": support_request["content"],
-            "max_turns": 2,
-            "clear_history": True
-        }
-    ]
-    chat_results = initiate_chats(chats)
-    return chat_results
+async def generate_content(user_input: str):
+    team = RoundRobinGroupChat(
+        [content_generation_agent, critic_agent],
+        termination_condition=max_msg_termination,
+    )
+    result = await team.run(task=user_input)
+    print(result)
+    return result

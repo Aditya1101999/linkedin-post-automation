@@ -1,5 +1,8 @@
 import os
+
 import dotenv
+from autogen_core.models import ModelFamily
+from autogen_ext.models.openai import OpenAIChatCompletionClient
 
 # Load environment variables from .env
 dotenv.load_dotenv('./.env')
@@ -18,18 +21,31 @@ LINKEDIN_API_URL = "https://api.linkedin.com/v2"
 
 # Headers for API requests
 headers = {
+    "Authorization": f"Bearer {HUGGINGFACE_API_KEY}",
+}
+
+headers2 = {
     "Authorization": f"Bearer {ACCESS_TOKEN}",
-    "Content-Type": "application/json"
 }
 def get_headers(content_type=None):
-    headers = headers.copy()
+    global headers2
+    updated_headers = headers2.copy()
     if content_type:
-        headers["Content-Type"] = content_type
-    return headers
+        headers2["Content-Type"] = content_type
+    return updated_headers
 
-# LLM Configuration 
-LLM_CONFIG = {
-    "model": "gemma2-9b-it", 
-    "api_key": GROQ_API_KEY,
-    "api_type": "groq"
-}
+# LLM Configuration
+model_client = OpenAIChatCompletionClient(
+    model="qwen-2.5-32b",
+    base_url="https://api.groq.com/openai/v1",
+    api_key=GROQ_API_KEY,
+    model_info={
+        "vision": False,
+        "function_calling": False,
+        "json_output": False,
+        "family": ModelFamily.is_gemini,
+    },
+)
+
+
+LLM_CONFIG = {"model": "gemma2-9b-it", "api_key": GROQ_API_KEY, "api_type": "groq"}

@@ -1,30 +1,36 @@
-from PIL import Image, UnidentifiedImageError
 import io
+import logging
+
 import requests
 from agents.prompt_improver_agent import prompt_improver_agent
-from agents.critic_agent import critic_agent
-from config.development import HUGGINGFACE_API_URL, get_headers
+from autogen_agentchat.messages import TextMessage
+from autogen_core import CancellationToken
+from config.development import HUGGINGFACE_API_URL, headers
+from PIL import Image, UnidentifiedImageError
+
 
 def query(payload):
-    response = requests.post(HUGGINGFACE_API_URL, headers=get_headers(), json=payload)
+    response = requests.post(HUGGINGFACE_API_URL, headers=headers, json=payload)
     if response.status_code != 200:
         raise Exception(f"Request failed: {response.status_code}, {response.text}")
     return response.content
 
-def generate_image(user_input):
-    support_request = {"content": user_input, "role": "user"}
-    updated_query = prompt_improver_agent.generate_reply(messages=[support_request])
-    final_prompt = updated_query['content']
 
-    updated_query_second = critic_agent.generate_reply(messages=[{"content": final_prompt, "role": "user"}])
-    final_prompt_second = updated_query_second['content']
+async def generate_image(user_input):
 
-    image_bytes = query({"inputs": str(final_prompt_second)})
+    result = await prompt_improver_agent.on_messages(
+        [TextMessage(content=user_input, source="user")],
+        cancellation_token=CancellationToken(),
+    )
+
+    image_bytes = query({"inputs": str(result.chat_message.content)})
 
     try:
         image = Image.open(io.BytesIO(image_bytes))
         image.save("generated_image.png")
+        logging.info("Generated image saved.")
     except UnidentifiedImageError:
-        print("The response is not a valid image. Here's the content of the response:")
-        print(image_bytes.decode("utf-8"))
-
+        logging.exception(
+            "The response is not a valid image. Here's the content of the response:"
+        )
+        logging.info(image_bytes.decode("utf-8"))
