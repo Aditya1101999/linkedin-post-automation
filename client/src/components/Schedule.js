@@ -62,18 +62,20 @@ export default function Schedule({ content, selectedDays, setSelectedDays }) {
     <div className="max-width">
       <Toaster position="top-center" />
 
-      <div>
+      <div className='flex flex-row justify-between'>
+        <h1 className="text-2xl font-bebas mt-10">Choose days to schedule</h1>
         <button
           onClick={handleAutomatedPosts}
-          className={`flex items-center justify-center px-4 py-2 text-white rounded-md font-montserrat ${selectedDays < 1
+          className={`w-1/6 flex items-center justify-center mt-2 text-white rounded-xl font-montserrat text-md ${selectedDays < 1
             ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-blue-500 hover:bg-blue-700'
+            : 'bg-blue-600 hover:bg-blue-700'
             }`}
         >
-          Automate
+          Automate Content
           <FontAwesomeIcon icon={faPaperPlane} className="ml-2" />
         </button>
-        <h1 className="text-2xl font-bebas mt-10">Choose days to schedule</h1>
+        
+      </div>
         <p className="text-md font-montserrat mt-3 text-gray-500">Select the days of the week to be active.</p>
 
         <div className="flex flex-row items-center mt-3 gap-3">
@@ -82,7 +84,6 @@ export default function Schedule({ content, selectedDays, setSelectedDays }) {
           ))}
         </div>
 
-      </div>
     </div>
   )
 }
