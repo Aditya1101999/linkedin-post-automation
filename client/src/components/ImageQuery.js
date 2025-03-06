@@ -31,9 +31,9 @@ export default function ImageQuery({image, setImage}){
       };
     return(
         <>
-         <h3 className="max-width text-2xl font-bebas">Image Generation</h3>
-         <p className="max-width text-md font-montserrat mt-3 text-gray-500">Generate post image for LinkedIn.</p>
-        <div className="max-width flex flex-row gap-5  mt-3">
+         <h3 className="text-2xl font-bebas">Image Generation</h3>
+         <p className="text-md font-montserrat mt-3 text-gray-500">Generate post image for LinkedIn.</p>
+        <div className="gap-5  mt-3">
           
           <input
             value={imageQuery}
@@ -43,7 +43,7 @@ export default function ImageQuery({image, setImage}){
           />
           <button
             onClick={handleGenerateImage}
-            className={`w-1/5 flex items-center justify-center px-3 py-2 mt-2 text-white rounded-xl font-montserrat text-md ${loading ? 'bg-gray-400 cursor-not-allowed' :' bg-blue-600 hover:bg-blue-700'}`}
+            className={`w-1/3 flex items-center justify-center px-3 py-4 mt-2 text-white rounded-xl font-montserrat text-md ${loading ? 'bg-gray-400 cursor-not-allowed' :' bg-blue-600 hover:bg-blue-700'}`}
           >
            {loading ? (<> Generating Image <SyncLoader className='ml-2' size={5} color='#ffffff' /></>): (<>Generate Image <FontAwesomeIcon icon={faWandMagicSparkles} className="ml-2" />'</>)}
           </button>
@@ -51,7 +51,7 @@ export default function ImageQuery({image, setImage}){
         </div>
         {image && (
             <div>
-              <h4 className="max-width mt-5 text-md font-montserrat font-semibold">Generated Image:</h4>
+              <h4 className="mt-10 text-md font-montserrat font-semibold">Generated Image:</h4>
               <img src={image} alt="Generated" className="max-width mt-2 rounded-xl" />
             </div>
           )}
