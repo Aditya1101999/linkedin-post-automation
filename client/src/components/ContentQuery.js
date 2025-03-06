@@ -16,7 +16,7 @@ export default function ContentQuery({ content, setContent }) {
         setLoading(true);
         try {
           const contentResponse = await axios.post(
-            `${process.env.REACT_BACKEND_URL}/api/v1/generate-content`,
+            `${process.env.REACT_APP_BACKEND_URL}/api/v1/generate-content`,
             {
               query: contentQuery,
             }

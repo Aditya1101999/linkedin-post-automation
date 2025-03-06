@@ -29,7 +29,7 @@ export default function Schedule({ content, selectedDays, setSelectedDays }) {
   const handlePostToLinkedIn = async () => {
     try {
       const postResponse = await axios.post(
-        'http://localhost:5000/api/v1/post-linkedin',
+        `${process.env.REACT_APP_BACKEND_URL}/api/v1/post-linkedin`,
         {
           generated_content: content,
           image_path: 'generated_image.png',
