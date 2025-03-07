@@ -46,6 +46,3 @@ model_client = OpenAIChatCompletionClient(
         "family": ModelFamily.is_gemini,
     },
 )
-
-
-LLM_CONFIG = {"model": "gemma2-9b-it", "api_key": GROQ_API_KEY, "api_type": "groq"}

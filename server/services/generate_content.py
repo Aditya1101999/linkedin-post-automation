@@ -11,5 +11,4 @@ async def generate_content(user_input: str):
         termination_condition=max_msg_termination,
     )
     result = await team.run(task=user_input)
-    print(result)
     return result

@@ -11,21 +11,6 @@ import { useState } from "react";
 export default function Schedule({ content, selectedDays, setSelectedDays }) {
   const [status, setStatus] = useState('');
 
-  const daysList = [
-    { "id": 0, "label": "Sun" },
-    { "id": 1, "label": "Mon" },
-    { "id": 2, "label": "Tue" },
-    { "id": 3, "label": "Wed" },
-    { "id": 4, "label": "Thu" },
-    { "id": 5, "label": "Fri" },
-    { "id": 6, "label": "Sat" },
-  ]
-
-  const selectedDayNames = selectedDays.map(dayId => {
-    const dayObj = daysList.find(day => day.id === dayId);
-    return dayObj ? dayObj.label : "";
-  });
-
   const handlePostToLinkedIn = async () => {
     try {
       const postResponse = await axios.post(
@@ -45,17 +30,15 @@ export default function Schedule({ content, selectedDays, setSelectedDays }) {
   };
 
   const handleAutomatedPosts = async () => {
-
-    const today = new Date().getDay()
-    if (selectedDays.includes(today)) {
-      setStatus(`Posting today for day ${selectedDayNames[selectedDays.indexOf(today)]}`)
-      await handlePostToLinkedIn()
-      setStatus("Posting completed for the current day.")
+    for (let day = 0; day < selectedDays; day++){
+      setStatus(`Posting for day ${day + 1}`);
+      await handlePostToLinkedIn();
+      
+      if (day < selectedDays - 1) {
+        await new Promise((resolve) => setTimeout(resolve, 86400000));
+      }
     }
-    else {
-      setStatus("No Posts to be scheduled for today.")
-    }
-
+    setStatus("All posts completed.")
   }
 
   return (
@@ -63,10 +46,23 @@ export default function Schedule({ content, selectedDays, setSelectedDays }) {
       <Toaster position="top-center" />
 
       <div className='flex flex-row justify-between'>
-        <h1 className="text-2xl font-bebas mt-10">Choose days to schedule</h1>
-        <button
+        <h1 className="text-2xl font-bebas mt-10">Choose number of days to schedule</h1>
+       
+        
+      </div>
+        <p className="text-md font-montserrat mt-3 text-gray-500">Select the number of days to be active.</p>
+
+        <div className="flex flex-row items-center mt-3 gap-3">
+        <input
+          type="number"
+          value={selectedDays}
+          onChange={(e) => setSelectedDays(Number(e.target.value))}
+          placeholder="Enter the number of days"
+          className="w-full p-4 mt-2 bg-zinc-100 border-2 border-gray-300 rounded-xl resize-none font-montserrat"
+        />
+         <button
           onClick={handleAutomatedPosts}
-          className={`w-1/6 flex items-center justify-center mt-2 text-white rounded-xl font-montserrat text-md ${selectedDays < 1
+          className={`w-1/5 flex items-center justify-center px-3 py-4 mt-2 text-white rounded-xl font-montserrat text-md ${selectedDays < 1
             ? 'bg-gray-400 cursor-not-allowed'
             : 'bg-blue-600 hover:bg-blue-700'
             }`}
@@ -74,14 +70,6 @@ export default function Schedule({ content, selectedDays, setSelectedDays }) {
           Automate Content
           <FontAwesomeIcon icon={faPaperPlane} className="ml-2" />
         </button>
-        
-      </div>
-        <p className="text-md font-montserrat mt-3 text-gray-500">Select the days of the week to be active.</p>
-
-        <div className="flex flex-row items-center mt-3 gap-3">
-          {daysList.map((step) => (
-            <div className={`cursor-pointer p-3 shadow-sm bg-white rounded-xl w-full border-2  font-montserrat text-center ${selectedDays.includes(step.id) ? "border-blue-500" : "border-gray-300"}`} key={step.id} onClick={() => setSelectedDays(prev => prev.includes(step.id) ? prev.filter(id => id !== step.id) : [...prev, step.id])}>{step.label}</div>
-          ))}
         </div>
 
     </div>
