@@ -1,7 +1,7 @@
 # LinkedIn Post Automation
 
 > [!IMPORTANT]  
-> Use with caution, LinkedIn account linked with the application.
+> Use with caution. The deployed application is linked to the developer's LinkedIn account. To use it yourself, clone the repository and set up the required environment variables.
 
 ## Overview
 
