@@ -57,17 +57,14 @@ def post_linkedin_route():
         return jsonify({"error": str(e)}), 500
 
 
-# @app.route('/api/v1/post-analysis', methods=['GET'])
+# @app.route("/api/v1/post-analysis", methods=["GET"])
 # def get_comments_route():
 #     try:
-#         post_url = request.args.get('post_url')
+#         post_url = request.args.get("post_url")
 
-#         analysis = post_summary(str(post_url))
+#         analysis = asyncio.run(post_summary(str(post_url)))
 
-#         return jsonify({
-#             "status": "success",
-#             "analysis": analysis["content"]
-#         }), 200
+#         return jsonify({"status": "success", "analysis": analysis["content"]}), 200
 #     except Exception as e:
 #         return jsonify({"error": str(e)}), 500
 

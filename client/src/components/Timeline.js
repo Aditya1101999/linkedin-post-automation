@@ -6,7 +6,7 @@ import Schedule from "./Schedule";
 
 
 export default function Timeline() {
-    const [days, setDays] = useState([]);
+    const [days, setDays] = useState(1);
     const [content, setContent] = useState('');
     const [image, setImage] = useState(null);
 
